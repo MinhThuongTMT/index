@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MQTT Control Panel</title>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+</head>
+<body>
+    <h2>Điều khiển thiết bị</h2>
+    <button onclick="sendCommand('garden/motor', 'ON')">Bật Relay 1</button>
+    <button onclick="sendCommand('garden/motor', 'OFF')">Tắt Relay 1</button>
+    <button onclick="sendCommand('garden/lamp', 'ON')">Bật Relay 2</button>
+    <button onclick="sendCommand('garden/lamp', 'OFF')">Tắt Relay 2</button>
+    <button onclick="sendCommand('garden/fan', 'ON')">Bật Relay 3</button>
+    <button onclick="sendCommand('garden/fan', 'OFF')">Tắt Relay 3</button>
+
+    <script>
+        const client = mqtt.connect('wss://485dac0774f84a84af21f6b392c46069.s1.eu.hivemq.cloud:8884', {
+            username: 'tu_mqtt',
+            password: '#30032003Tu'
+        });
+
+        client.on('connect', function() {
+            console.log('Connected to MQTT broker');
+        });
+
+        function sendCommand(topic, message) {
+            client.publish(topic, message);
+            console.log(`Sent ${message} to ${topic}`);
+        }
+    </script>
+</body>
+</html>
